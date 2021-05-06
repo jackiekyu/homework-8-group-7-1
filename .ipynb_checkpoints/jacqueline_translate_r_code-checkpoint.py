@@ -48,3 +48,24 @@ def tau_twoside_less_treated(n11, n10, n01, n00, alpha, nperm):
         N_accept_upper = ci_lower["N_accept_upper"]
 
     return {"tau_lower": tau_lower, "tau_upper": tau_upper,  "N_accept_lower": N_accept_lower, "N_accept_upper": N_accept_upper, "rand_test_total": rand_test_total}
+
+
+def tau_twoside(n11, n10, n01, n00, alpha, nperm):
+    n = n11 + n10 + n01 + n00
+    m = n11 + n10
+    if m > (n/2):
+        ci = tau_twoside_less_treated(n01, n00, n11, n10, alpha, nperm)
+        tau_lower = -ci["tau_upper"] 
+        tau_upper = -ci["tau_lower"]
+        N_accept_lower = ci["N_accept_lower"][[0, 2, 1, 3]]
+        N_accept_upper = ci["N_accept_upper"][[0, 2, 1, 3]]
+        rand_test_total = ci["rand_test_total"]
+    else:
+        ci = tau_twoside_less_treated(n11, n10, n01, n00, alpha, nperm)
+        tau_lower = ci["tau_lower"]
+        tau_upper = ci["tau_upper"]  
+        N_accept_lower = ci["N_accept_lower"]
+        N_accept_upper = ci["N_accept_upper"]
+        rand_test_total = ci["rand_test_total"]
+
+    return {"tau_lower": tau_lower, "tau_upper": tau_upper, "N_accept_lower": N_accept_lower, "N_accept_upper": N_accept_upper, "rand_test_total": rand_test_total}
