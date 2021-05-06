@@ -1,6 +1,7 @@
 """Translate R code to Python."""
 
 import numpy as np
+import scipy.special
 
 def comb(n, m, nperm):
     trt = np.zeros((nperm,m), dtype=int)
