@@ -17,6 +17,39 @@ def comb(n, m, nperm):
     return Z
 
 
+def tau_twoside_lower(n11, n10, n01, n00, alpha, Z_all):
+    n = n11+n10+n01+n00
+    m = n11+n10
+    tau_obs = n11/m - n01/(n-m)
+    ntau_obs = n*n11/m - n* n01/(n-m)
+    tau_min = math.inf
+    tau_max = -math.inf
+    N_accept_min = np.nan
+    N_accept_max = np.nan
+    rand_test_total = 0
+    
+    for N11 in np.arange(0, min((n11+n01), n+ntau_obs)+1):
+        tau_min_N11 = tau_lower_N11_twoside(n11, n10, n01, n00, N11, Z_all, alpha)
+        # assumes that tau_lower_N11_twoside output is a dictionary
+        rand_test_total = rand_test_total + tau_min_N11["rand_test_num"] 
+        if(tau_min_N11["tau_min"] < tau_min):
+            N_accept_min = tau_min_N11["N_accept_min"]
+        if(tau_min_N11["tau_max"] > tau_max):
+            N_accept_max = tau_min_N11["N_accept_max"]
+        tau_min = min(tau_min, tau_min_N11["tau_min"])
+        tau_max = max(tau_max, tau_min_N11["tau_max"])
+    
+    tau_lower = tau_min
+    tau_upper = tau_max
+    N_accept_lower = N_accept_min
+    N_accept_upper = N_accept_max 
+                      
+    dict_output = {'tau_lower':tau_lower, 'N_accept_lower':N_accept_lower, 
+                   'tau_upper':tau_upper, 'N_accept_upper':N_accept_upper,
+                  'rand_test_total':rand_test_total}
+    return dict_output
+
+
 def tau_twoside_less_treated(n11, n10, n01, n00, alpha, nperm):
     n = n11 + n10 + n01 + n00
     m = n11 + n10
