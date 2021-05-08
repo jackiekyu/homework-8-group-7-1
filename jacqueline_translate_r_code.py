@@ -8,10 +8,11 @@ def comb(n, m, nperm):
     for i in np.arange(0, nperm):
         trt[i,] = np.random.choice(n, size=m, replace=False)
 
-    Z = np.zeros((nperm,n))
+    Z = np.zeros((nperm,n), dtype=int)
+    
     for i in np.arange(0, nperm):
         Z[i,trt[i,]] = 1
-        Z[i,-trt[i,]] = 0
+        Z[i,(~np.in1d(np.arange(Z.shape[1]), trt[i,])).nonzero()] = 0
 
     return Z
 
