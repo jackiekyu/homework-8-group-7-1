@@ -104,8 +104,8 @@ def pval_two(n, m, N, Z_all, tau_obs):
         dat[(N[0]+N[1]):(N[0]+N[1]+N[2]), 1] = 1
     if N[3] > 0:
         dat[(N[0]+N[1]+N[2]):(N[0]+N[1]+N[2]+N[3]), ] = 0
-    tau_hat = np.matmul(Z_all, dat[:, 0]) / (m) -
-    np.matmul((1 - Z_all), dat[:, 1]) / (n-m)
+    tau_hat = np.matmul(Z_all, dat[:, 0]) / (m) - \
+        np.matmul((1 - Z_all), dat[:, 1]) / (n-m)
     tau_N = (N[1]-N[2]) / n
     pd = sum(np.round(np.abs(tau_hat-tau_N), 15) >=
              np.round(np.abs(tau_obs-tau_N), 15))/n_Z_all
