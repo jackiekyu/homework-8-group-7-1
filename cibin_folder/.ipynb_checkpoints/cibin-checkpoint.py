@@ -194,7 +194,7 @@ def tau_lower_N11_twoside(n11, n10, n01, n00, N11, Z_all, alpha):
     ntau_obs = n * n11 / m - n * n01 / (n - m)
     # N01 range from max((-n*tau_obs),0) to n-N11
     N10 = 0
-    N01_vec0 = np.arange(0, (n-N11))[np.arange(0, (n-N11)) >= (-ntau_obs)]
+    N01_vec0 = np.arange(0, (n-N11)+1)[np.arange(0, (n-N11)+1) >= (-ntau_obs)]
     N01 = min(N01_vec0)
     M = np.repeat(np.nan, len(N01_vec0))
     # counting number of randomization test
@@ -306,7 +306,8 @@ def tau_twoside_lower(n11, n10, n01, n00, alpha, Z_all):
     rand_test_total = 0
 
     for N11 in np.arange(0, min((n11+n01), n+ntau_obs)+1):
-        N01_vec0 = np.arange(0, n-N11)[np.arange(0, (n-N11)) >= (-ntau_obs)]
+        N01_vec0 = np.arange(0, n-N11+1)[np.arange(0,
+                                                   (n-N11)+1) >= (-ntau_obs)]
         if len(list(N01_vec0)) == 0:
             break
         tau_min_N11 = tau_lower_N11_twoside(n11, n10, n01, n00, N11,
@@ -396,7 +397,7 @@ def tau_twoside_less_treated(n11, n10, n01, n00, alpha, nperm):
 
 
 def tau_twosided_ci(n11, n10, n01, n00, alpha, exact=True,
-                   max_combinations=10**5, reps=10**3):
+                    max_combinations=10**5, reps=10**3):
     """
     FIX.
 
@@ -449,7 +450,7 @@ def tau_twosided_ci(n11, n10, n01, n00, alpha, exact=True,
         N_accept_upper = ci["N_accept_upper"]
         rand_test_total = ci["rand_test_total"]
 
-    bounds = [tau_lower, tau_upper]
+    bounds = [tau_lower*n, tau_upper*n]
     allocation = [N_accept_lower, N_accept_upper]
     tables_reps = [rand_test_total, reps]
     return bounds, allocation, tables_reps
