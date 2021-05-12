@@ -449,7 +449,7 @@ def tau_twosided_ci(n11, n10, n01, n00, alpha, exact=True,
         N_accept_upper = ci["N_accept_upper"]
         rand_test_total = ci["rand_test_total"]
 
-    bounds = [tau_lower, tau_upper]
+    bounds = [tau_lower*n, tau_upper*n]
     allocation = [N_accept_lower, N_accept_upper]
     tables_reps = [rand_test_total, reps]
     return bounds, allocation, tables_reps
