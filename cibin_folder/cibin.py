@@ -395,7 +395,7 @@ def tau_twoside_less_treated(n11, n10, n01, n00, alpha, nperm):
             "rand_test_total": rand_test_total}
 
 
-def tau_twoside_ci(n11, n10, n01, n00, alpha, exact=True,
+def tau_twosided_ci(n11, n10, n01, n00, alpha, exact=True,
                    max_combinations=10**5, reps=10**3):
     """
     FIX.
