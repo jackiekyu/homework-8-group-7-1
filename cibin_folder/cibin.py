@@ -25,6 +25,8 @@ def nchoosem(n, m):
     Z: matrix
         all possible combinations of n choose m
     """
+    assert m <= n, "m must be less than or equal to n."
+    
     c = math.comb(n, m)
     trt = np.array(list(combinations(np.arange(n), m)))
     Z = np.zeros((c, n))
@@ -91,6 +93,7 @@ def pval_two(n, m, N, Z_all, tau_obs):
         the pval of the test statistic
 
     """
+    assert m <= n, "Number of subjects who are 1 must be less than or equal to sum of all subjects"
     n_Z_all = Z_all.shape[0]
     dat = np.zeros((n, 2))
     N = [int(x) for x in N]
