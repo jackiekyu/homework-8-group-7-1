@@ -26,7 +26,7 @@ def nchoosem(n, m):
         all possible combinations of n choose m
     """
     assert m <= n, "m must be less than or equal to n."
-    
+
     c = math.comb(n, m)
     trt = np.array(list(combinations(np.arange(n), m)))
     Z = np.zeros((c, n))
@@ -58,7 +58,7 @@ def comb(n, m, nperm):
         values for which the test does not reject
     """
     assert m <= n, "m must be less than or equal to n."
-    
+
     trt = np.zeros((nperm, m), dtype=int)
     for i in np.arange(0, nperm):
         trt[i, ] = np.random.choice(n, size=m, replace=False)
@@ -95,7 +95,7 @@ def pval_two(n, m, N, Z_all, tau_obs):
         the pval of the test statistic
 
     """
-    assert m <= n, "Number of subjects who are 1 must be less than or equal to sum of all subjects"
+    assert m <= n, "m must be less than or equal to n"
     n_Z_all = Z_all.shape[0]
     dat = np.zeros((n, 2))
     N = [int(x) for x in N]
@@ -150,7 +150,7 @@ def check_compatible(n11, n10, n01, n00, N11, N10, N01):
     assert isinstance(n10, int), "n10 must be an integer."
     assert isinstance(n01, int), "n01 must be an integer."
     assert isinstance(n00, int), "n00 must be an integer."
-    
+
     n = n11 + n10 + n01 + n00
     n_t = len(N10)
     left = np.max(np.array([np.repeat(0, n_t), n11 -
@@ -202,7 +202,7 @@ def tau_lower_N11_twoside(n11, n10, n01, n00, N11, Z_all, alpha):
     assert isinstance(n10, int), "n10 must be an integer."
     assert isinstance(n01, int), "n01 must be an integer."
     assert isinstance(n00, int), "n00 must be an integer."
-    
+
     n = n11 + n10 + n01 + n00
     m = n11 + n10
     tau_obs = n11 / m - n01 / (n - m)
@@ -314,7 +314,7 @@ def tau_twoside_lower(n11, n10, n01, n00, alpha, Z_all):
     assert isinstance(n10, int), "n10 must be an integer."
     assert isinstance(n01, int), "n01 must be an integer."
     assert isinstance(n00, int), "n00 must be an integer."
-    
+
     n = n11+n10+n01+n00
     m = n11+n10
     tau_obs = n11/m - n01/(n-m)
@@ -384,7 +384,7 @@ def tau_twoside_less_treated(n11, n10, n01, n00, alpha, nperm):
     assert isinstance(n10, int), "n10 must be an integer."
     assert isinstance(n01, int), "n01 must be an integer."
     assert isinstance(n00, int), "n00 must be an integer."
-    
+
     n = n11 + n10 + n01 + n00
     m = n11 + n10
     if scipy.special.comb(n, m, exact=True) <= nperm:
@@ -420,8 +420,8 @@ def tau_twoside_less_treated(n11, n10, n01, n00, alpha, nperm):
             "rand_test_total": rand_test_total}
 
 
-def tau_twosided_ci(n11, n10, n01, n00, alpha, exact=True,
-                   max_combinations=10**5, reps=10**3):
+def tau_twosided_ci(n11, n10, n01, n00, alpha,
+                    exact=True, max_combinations=10**5, reps=10**3):
     """
     FIX.
 
