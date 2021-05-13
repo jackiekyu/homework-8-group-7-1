@@ -57,6 +57,8 @@ def comb(n, m, nperm):
     B : list
         values for which the test does not reject
     """
+    assert m <= n, "m must be less than or equal to n."
+    
     trt = np.zeros((nperm, m), dtype=int)
     for i in np.arange(0, nperm):
         trt[i, ] = np.random.choice(n, size=m, replace=False)
@@ -144,6 +146,11 @@ def check_compatible(n11, n10, n01, n00, N11, N10, N01):
     compat : list
         True or False values of compatible inputs
     """
+    assert isinstance(n11, int), "n11 must be an integer."
+    assert isinstance(n10, int), "n10 must be an integer."
+    assert isinstance(n01, int), "n01 must be an integer."
+    assert isinstance(n00, int), "n00 must be an integer."
+    
     n = n11 + n10 + n01 + n00
     n_t = len(N10)
     left = np.max(np.array([np.repeat(0, n_t), n11 -
@@ -191,8 +198,11 @@ def tau_lower_N11_twoside(n11, n10, n01, n00, N11, Z_all, alpha):
         lower accept region, upper accept region,
         and total tests ran
     """
-    assert alpha >= 0, "alpha must be greater than zero."
-    assert alpha <= 1, "alpha must be less than one."
+    assert isinstance(n11, int), "n11 must be an integer."
+    assert isinstance(n10, int), "n10 must be an integer."
+    assert isinstance(n01, int), "n01 must be an integer."
+    assert isinstance(n00, int), "n00 must be an integer."
+    
     n = n11 + n10 + n01 + n00
     m = n11 + n10
     tau_obs = n11 / m - n01 / (n - m)
@@ -300,8 +310,11 @@ def tau_twoside_lower(n11, n10, n01, n00, alpha, Z_all):
     compat : list
         True or False values of compatible inputs
     """
-    assert np.all(alpha >= 0), "alpha must be greater than zero."
-    assert np.all(alpha <= 1), "alpha must be less than one."
+    assert isinstance(n11, int), "n11 must be an integer."
+    assert isinstance(n10, int), "n10 must be an integer."
+    assert isinstance(n01, int), "n01 must be an integer."
+    assert isinstance(n00, int), "n00 must be an integer."
+    
     n = n11+n10+n01+n00
     m = n11+n10
     tau_obs = n11/m - n01/(n-m)
@@ -367,6 +380,11 @@ def tau_twoside_less_treated(n11, n10, n01, n00, alpha, nperm):
     compat : list
         True or False values of compatible inputs
     """
+    assert isinstance(n11, int), "n11 must be an integer."
+    assert isinstance(n10, int), "n10 must be an integer."
+    assert isinstance(n01, int), "n01 must be an integer."
+    assert isinstance(n00, int), "n00 must be an integer."
+    
     n = n11 + n10 + n01 + n00
     m = n11 + n10
     if scipy.special.comb(n, m, exact=True) <= nperm:
