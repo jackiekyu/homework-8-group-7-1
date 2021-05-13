@@ -240,7 +240,7 @@ def tau_lower_N11_twoside(n11, n10, n01, n00, N11, Z_all, alpha):
     if sum(compat) > 0:
         tau_min = min(N10_vec[compat] - N01_vec[compat]) / n
         accept_pos = np.where((N10_vec[compat] - N01_vec[compat])
-                              == n * tau_min)
+                              == np.round(n * tau_min, 0))
         accept_pos = accept_pos[0]
         N_accept_min = np.array([N11, N10_vec[compat][accept_pos][0],
                                  N01_vec[compat][accept_pos][0],
@@ -248,7 +248,7 @@ def tau_lower_N11_twoside(n11, n10, n01, n00, N11, Z_all, alpha):
                                     N01_vec[compat][accept_pos])[0]])
         tau_max = max(N10_vec[compat] - N01_vec[compat]) / n
         accept_pos = np.where((N10_vec[compat] - N01_vec[compat])
-                              == n * tau_min)
+                              == np.round(n * tau_min, 0))
         accept_pos = accept_pos[0]
         N_accept_max = np.array([N11, N10_vec[compat][accept_pos][0],
                                  N01_vec[compat][accept_pos][0],
