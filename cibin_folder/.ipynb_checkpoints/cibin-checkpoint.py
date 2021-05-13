@@ -191,6 +191,8 @@ def tau_lower_N11_twoside(n11, n10, n01, n00, N11, Z_all, alpha):
         lower accept region, upper accept region,
         and total tests ran
     """
+    assert alpha >= 0, "alpha must be greater than zero."
+    assert alpha <= 1, "alpha must be less than one."
     n = n11 + n10 + n01 + n00
     m = n11 + n10
     tau_obs = n11 / m - n01 / (n - m)
@@ -298,6 +300,8 @@ def tau_twoside_lower(n11, n10, n01, n00, alpha, Z_all):
     compat : list
         True or False values of compatible inputs
     """
+    assert np.all(alpha >= 0), "alpha must be greater than zero."
+    assert np.all(alpha <= 1), "alpha must be less than one."
     n = n11+n10+n01+n00
     m = n11+n10
     tau_obs = n11/m - n01/(n-m)
