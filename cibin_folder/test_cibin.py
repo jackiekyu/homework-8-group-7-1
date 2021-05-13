@@ -76,7 +76,7 @@ def test_pval_two_correct_output():
 
 def test_check_compatible_bad_input():
     """
-    Test that sample sizes match length of subject arrays.
+    Test that.
     """
     n11 = 1
     n01 = 5
@@ -95,16 +95,8 @@ def test_check_compatible_correct_output():
     Test that check_compatible() computes 
     compatibility correctly.
     """
-    n11 = 5
-    n10 = 5
-    n01 = 5
-    n00 = 5
-    N11 = np.array([0,1,1,0,1])
-    N10 = np.array([1,1,0,0,0])
-    N01 = np.array([0,1,0,1,0])
-    output = check_compatible(n11, n10, n01, n00, N11, N10, N01)
-    print(output)
-    assert (not np.any(output))
+    output = check_compatible(1, 5, 12, 13, np.array([5, 6]), np.array([6,8]), np.array([7, 8]))
+    assert (np.all(output))
 
 
 def test_tau_lower_N11_twoside_bad_input():
