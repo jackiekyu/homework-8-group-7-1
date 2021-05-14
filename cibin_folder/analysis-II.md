@@ -1,0 +1,6 @@
+# Analysis Part II
+
+Is the same method applicable to the two intermediate endpoints, symptoms within 1 week and symptoms after 1 week? If so, how? Identify any additional assumptions or adjustments that would be required to use the method on the intermediate endpoints. If the method is not applicable to the intermediate endpoints, explain why.
+
+#### Is the same method applicable to the two intermediate endpoints?
+The same method is applicable to the two intermediate endpoints, symptoms within 1 week and symptoms after 1 week. There are still two different groups who have either received the treatment or they have not. Also, this situation can be said to have binary responses. The participants have either shown signs of symptoms or they have not. However, in order to categorize each of the participants, there must be clear guidelines for what counts as a symptom and what does not. They must clearly fit into one group or the other. Also, when comparing the results of the test for 1 week to the results of the test for after 1 week, we must keep in mind that the two are not independent. Those who show symptoms after one week can be in some way dependent on which participants are showing symptoms within 1 week.
