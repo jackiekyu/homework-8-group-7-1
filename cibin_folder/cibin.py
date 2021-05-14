@@ -25,8 +25,10 @@ def nchoosem(n, m):
     Z: matrix
         all possible combinations of n choose m
     """
+    assert isinstance(m, int), "m must be an int."
+    assert isinstance(n, int), "n must be an int."
     assert m <= n, "m must be less than or equal to n."
-    
+
     c = math.comb(n, m)
     trt = np.array(list(combinations(np.arange(n), m)))
     Z = np.zeros((c, n))
@@ -37,28 +39,24 @@ def nchoosem(n, m):
 
 def comb(n, m, nperm):
     """
-    FIX.
-
-    Calculate the chi squared statistic between x and y.
-
-    Acceptance region for a randomized binomial test.
+    Return nperm by n matrix of possible combinations.
 
     Parameters
     ----------
-    n : integer
-        number of independent trials
-    p : float
-        probability of success in each trial
-    alpha : float
-        desired significance level
+    n : int
+       possible values to choose from
+    m : int
+       sample size of unordered values
+    nperm : int
+       maximum number of combinations considered
 
     Returns
-    --------
-    B : list
-        values for which the test does not reject
+    -------
+    Z : matrix
+        nperm by n matrix of possible combinations
     """
     assert m <= n, "m must be less than or equal to n."
-    
+
     trt = np.zeros((nperm, m), dtype=int)
     for i in np.arange(0, nperm):
         trt[i, ] = np.random.choice(n, size=m, replace=False)
@@ -95,7 +93,7 @@ def pval_two(n, m, N, Z_all, tau_obs):
         the pval of the test statistic
 
     """
-    assert m <= n, "Number of subjects who are 1 must be less than or equal to sum of all subjects"
+    assert m <= n, "# of subjects who are 1 must be <= to sum of all subjects"
     n_Z_all = Z_all.shape[0]
     dat = np.zeros((n, 2))
     N = [int(x) for x in N]
@@ -150,7 +148,7 @@ def check_compatible(n11, n10, n01, n00, N11, N10, N01):
     assert isinstance(n10, int), "n10 must be an integer."
     assert isinstance(n01, int), "n01 must be an integer."
     assert isinstance(n00, int), "n00 must be an integer."
-    
+
     n = n11 + n10 + n01 + n00
     n_t = len(N10)
     left = np.max(np.array([np.repeat(0, n_t), n11 -
@@ -202,7 +200,7 @@ def tau_lower_N11_twoside(n11, n10, n01, n00, N11, Z_all, alpha):
     assert isinstance(n10, int), "n10 must be an integer."
     assert isinstance(n01, int), "n01 must be an integer."
     assert isinstance(n00, int), "n00 must be an integer."
-    
+
     n = n11 + n10 + n01 + n00
     m = n11 + n10
     tau_obs = n11 / m - n01 / (n - m)
@@ -283,10 +281,12 @@ def tau_lower_N11_twoside(n11, n10, n01, n00, N11, Z_all, alpha):
 
 def tau_twoside_lower(n11, n10, n01, n00, alpha, Z_all):
     """
-    FIX..
+    Approximating tau given a set of sample size inputs.
 
-    Checking to see if the inputs of the subject
-    groups are able to be passed in correctly.
+    Calculate the lower and upper bounds for approximating
+    the value of tau. Also provide the number of tests ran
+    for the function and the arrays where the bounds for the
+    upper and lower values were found.
 
     Parameters
     ----------
@@ -298,23 +298,23 @@ def tau_twoside_lower(n11, n10, n01, n00, alpha, Z_all):
         number of people who fall under group n01
     n00 : int
         number of people who fall under group n00
-    N11 : array
-        values of all n11
-    Z_all : matrix
-        the output from the function nchoosem
     alpha : float
         the alpha cutoff value desired
+    Z_all : matrix
+        the output from the function nchoosem
 
     Returns
     --------
-    compat : list
-        True or False values of compatible inputs
+    dictionary : dict
+        dictionary of values of tau min, lower accept region,
+        tau max, upper accept region,
+        and total tests ran
     """
     assert isinstance(n11, int), "n11 must be an integer."
     assert isinstance(n10, int), "n10 must be an integer."
     assert isinstance(n01, int), "n01 must be an integer."
     assert isinstance(n00, int), "n00 must be an integer."
-    
+
     n = n11+n10+n01+n00
     m = n11+n10
     tau_obs = n11/m - n01/(n-m)
@@ -326,7 +326,7 @@ def tau_twoside_lower(n11, n10, n01, n00, alpha, Z_all):
     rand_test_total = 0
 
     for N11 in np.arange(0, min((n11+n01), n+ntau_obs)+1):
-        N01_vec0 = np.arange(0, n-N11+1)[np.arange(0, (n-N11)+1) >= (-ntau_obs)]
+        N01_vec0 = np.arange(0, n-N11+1)[np.arange(0, n-N11+1) >= (-ntau_obs)]
         if len(list(N01_vec0)) == 0:
             break
         tau_min_N11 = tau_lower_N11_twoside(n11, n10, n01, n00, N11,
@@ -353,10 +353,12 @@ def tau_twoside_lower(n11, n10, n01, n00, alpha, Z_all):
 
 def tau_twoside_less_treated(n11, n10, n01, n00, alpha, nperm):
     """
-    FIX..
+    Approximating tau given a set of sample size inputs.
 
-    Checking to see if the inputs of the subject
-    groups are able to be passed in correctly.
+    Calculate the lower and upper bounds for approximating
+    the value of tau. Also provide the number of tests ran
+    for the function and the arrays where the bounds for the
+    upper and lower values were found.
 
     Parameters
     ----------
@@ -368,23 +370,23 @@ def tau_twoside_less_treated(n11, n10, n01, n00, alpha, nperm):
         number of people who fall under group n01
     n00 : int
         number of people who fall under group n00
-    N11 : array
-        values of all n11
-    Z_all : matrix
-        the output from the function nchoosem
     alpha : float
         the alpha cutoff value desired
+    nperm : int
+       maximum number of combinations considered
 
     Returns
     --------
-    compat : list
-        True or False values of compatible inputs
+    dictionary : dict
+        dictionary of values of tau min, tau max,
+        lower accept region, upper accept region,
+        and total tests ran
     """
     assert isinstance(n11, int), "n11 must be an integer."
     assert isinstance(n10, int), "n10 must be an integer."
     assert isinstance(n01, int), "n01 must be an integer."
     assert isinstance(n00, int), "n00 must be an integer."
-    
+
     n = n11 + n10 + n01 + n00
     m = n11 + n10
     if scipy.special.comb(n, m, exact=True) <= nperm:
@@ -421,12 +423,14 @@ def tau_twoside_less_treated(n11, n10, n01, n00, alpha, nperm):
 
 
 def tau_twosided_ci(n11, n10, n01, n00, alpha, exact=True,
-                   max_combinations=10**5, reps=10**3):
+                    max_combinations=10**5, reps=10**3):
     """
-    FIX.
+    Provide bounds for approximating tau given set of sample size inputs.
 
-    Checking to see if the inputs of the subject
-    groups are able to be passed in correctly.
+    Calculate the lower and upper bounds for approximating
+    the value of tau. Also provide the number of tests ran
+    for the function and the arrays where the bounds for the
+    upper and lower values were found.
 
     Parameters
     ----------
@@ -438,17 +442,23 @@ def tau_twosided_ci(n11, n10, n01, n00, alpha, exact=True,
         number of people who fall under group n01
     n00 : int
         number of people who fall under group n00
-    N11 : array
-        values of all n11
-    Z_all : matrix
-        the output from the function nchoosem
     alpha : float
         the alpha cutoff value desired
+    exact : boolean
+        specifies if calculation should be calculated exactly or
+        through simulation. Default is True.
+    max_combinations : int
+       maximum number of combinations considered. Default is 10**5.
+    reps :
+        number of simulations for each table when exact=False.
+        Default is 10**3.
 
     Returns
     --------
-    compat : list
-        True or False values of compatible inputs
+    dictionary : dict
+        dictionary of values of tau min, tau max,
+        lower accept region, upper accept region,
+        and total tests ran
     """
     n = n11 + n10 + n01 + n00
     m = n11 + n10
