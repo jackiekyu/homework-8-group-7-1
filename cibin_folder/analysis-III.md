@@ -4,4 +4,4 @@ Imagine enumerating all the subject-weeks (4 weeks per subject), and labeling ea
 
 #### Can either of the methods you implemented be used to find confidence bounds for the average treatment effect?
 
-The methods implemented cannot be used to find confidence bounds for the average treatment effect. In this case, the assumption of independence does not hold. Whether or not a subject has symptoms the next week can be dependent on whether or not they had symptoms in the previous week.
+The methods implemented cannot be used to find confidence bounds for the average treatment effect. In this case, the assumption of independence does not hold. Whether or not a subject has symptoms the next week can be dependent on whether or not they had symptoms in the previous week. Another way to structure the problem would be to count the number of weeks that each participant shows symptoms. However, this would result in the outcome no longer being binary, which is necessary for our approach. Because of the violation of the independence assumption and the need for outcomes to be binary, we would say that the methods cannot be used.
