@@ -180,7 +180,15 @@ def test_tau_twoside_lower_bad_input():
     
     with pytest.raises(AssertionError):
         tau_twoside_lower(n11, n10, n01, n00, Z_all, alpha)
-        
+
+
+def test_nchoosem_bad_input():
+    """Test that n and m are ints."""
+    n = 4.2
+    m = 2.1
+    with pytest.raises(AssertionError):
+        nchoosem(n, m)
+                
 
 def tau_twoside_less_treated_bad_input():
     """
@@ -207,6 +215,7 @@ def tau_twoside_less_treated_correct_output():
     specifically tau min, tau max, lower accept region, 
     upper accept region, and number of total tests run.
     """
+    np.random.seed(42)
     n11 = 4
     n01 = 3
     n00 = 2
@@ -218,10 +227,10 @@ def tau_twoside_less_treated_correct_output():
     tau_obs = n11/m - n01/(n-m)
     
     dict = tau_twoside_less_treated(n11, n10, n01, n00, 0.05, n)
-    assert (dict['tau_lower'] == -0.4)
+    assert (dict['tau_lower'] == -0.3)
     assert (dict['tau_upper'] == 0.6)
-    assert (np.all(dict['N_accept_lower'] == [4,0,4,2]))
-    assert (np.all(dict['N_accept_upper'] == [3,6,0,1]))
+    assert (np.all(dict['N_accept_lower'] == [4., 0., 3., 3.]))
+    assert (np.all(dict['N_accept_upper'] == [3., 6., 0., 1.]))
     assert (dict['rand_test_total'] == 90)
 
 
@@ -233,6 +242,7 @@ def tau_twosided_ci_bad_input():
     """
     with pytest.raises(ValueError):
         tau_twosided_ci(1, 1, 1, 13, .05, exact=True, max_combinations=2)
+
 
 def tau_twosided_ci_correct_output_exact_False():
     """
@@ -262,3 +272,14 @@ def tau_twosided_ci_correct_output_exact_True():
     assert (output[2] == [103, 120])
     
     
+def test_nchoosem_correct():
+    """Test correct output of nchoosem."""
+    n = 5
+    m = 3
+    Z = nchoosem(n, m)
+    expected = np.array([[1, 1, 1, 0, 0], [1, 1, 0, 1, 0],
+                           [1, 1, 0, 0, 1], [1, 0, 1, 1, 0],
+                           [1, 0, 1, 0, 1], [1, 0, 0, 1, 1],
+                           [0, 1, 1, 1, 0], [0, 1, 1, 0, 1],
+                           [0, 1, 0, 1, 1], [0, 0, 1, 1, 1]])
+    np.testing.assert_array_equal(Z, expected)
