@@ -1,9 +1,7 @@
-"""Translate R code to Python."""
+"""Confidence Interval Permutation Method."""
 
 import numpy as np
 import scipy.special
-import pandas as pd
-import math
 from itertools import combinations
 from itertools import filterfalse
 import math
