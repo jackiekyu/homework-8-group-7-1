@@ -1,7 +1,6 @@
 # cibin-template
 
-## TO DO:
-Update this README.md file with information about your package implementation in a similar way to how it is done in [this example](https://github.com/fperez/mytoy). 
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/UCB-stat-159-s21/homework-8-group-7-1/HEAD)
 
 This repository contains a cibin Python package with a few analysis and demo files.
 
